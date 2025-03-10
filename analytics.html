@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Analytics - NCLEX Master Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="css/analytics.css" rel="stylesheet">
+</head>
+<body class="analytics-page">
+    <nav class="navbar navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="images/logo.png" alt="Pebbles Master Pro" height="45"> Pebbles Master Pro
+            </a>
+            <a href="quiz.html" class="btn btn-primary btn-sm">
+                New Quiz <i class="fas fa-plus ms-2"></i>
+            </a>
+        </div>
+    </nav>
+
+    <main class="container py-4">
+        <!-- Filters -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <select class="form-select" id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option>Pharmacology</option>
+                    <option>Pediatrics</option>
+                    <option>Medical-Surgical</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <input type="date" class="form-control" id="startDate">
+            </div>
+            <div class="col-md-4">
+                <input type="date" class="form-control" id="endDate">
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-6 col-lg-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="metric-icon bg-primary">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="ms-3">
+                                <div class="metric-value" id="totalQuizzes">0</div>
+                                <div class="metric-label">Total Attempts</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="metric-icon bg-success">
+                                <i class="fas fa-percent"></i>
+                            </div>
+                            <div class="ms-3">
+                                <div class="metric-value" id="averageScore">0%</div>
+                                <div class="metric-label">Average Score</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="metric-icon bg-info">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="ms-3">
+                                <div class="metric-value" id="totalTime">0h</div>
+                                <div class="metric-label">Total Time</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="metric-icon bg-warning">
+                                <i class="fas fa-flag"></i>
+                            </div>
+                            <div class="ms-3">
+                                <div class="metric-value" id="flaggedQs">0</div>
+                                <div class="metric-label">Flagged Questions</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-chart-bar me-2"></i>Performance Over Time</h5>
+                        <canvas id="progressChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-chart-pie me-2"></i>Question Type Score Distribution</h5>
+                        <canvas id="typeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+               <!-- Category Mastery -->
+            <div class="col-lg-6">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-star me-2"></i>Category Mastery</h5>
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Difficulty Breakdown -->
+            <div class="col-lg-6">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-chart-pie me-2"></i>Difficulty Breakdown</h5>
+                        <canvas id="difficultyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add this section after the charts -->
+            <!-- <section class="card mt-4 shadow">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-flag me-2"></i>Flagged Questions History</h5>
+                    <div id="flagged-questions-list" class="list-group">
+                    </div>
+                </div>
+            </section> -->
+            <div class="row mt-4">
+                <div class="col-lg-6">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-history me-2"></i>Quiz History</h5>
+                            <div id="quiz-history-list" class="list-group"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-flag me-2"></i>Flagged Questions</h5>
+                            <div id="flagged-questions-list" class="list-group"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Flagged Questions -->
+        <div class="modal fade" id="questionModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!-- Modal content will be dynamically loaded -->
+                </div>
+            </div>
+        </div>
+        
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/analytics.js"></script>
+</body>
+</html>

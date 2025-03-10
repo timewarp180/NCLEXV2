@@ -1,0 +1,60 @@
+Instruction: I want you to make an app like https://nurses.archerreview.com/ a website for nclex for nurse practice questions, programming language should be html, css, bootstrap, javascript and others programming language that you would also want to add to make the program easy. No database. Separate the files. The User should also have a landing page with logo before user starts the quiz/test. Its up to you on what you put on the landing page with those different features. Tips: You can have a navbar or a sidebar up to you. Make the landing page modern, very beautiful and attractive user friendly website (make bootstrap work almost all of it) and add your css if needed. 
+
+Implementation: Now I want a website that has 6 types of questionnaire (scenario-dropdown, fill-blank, medication-matching , priority, select-all, multiple-choice) type of questionnaire, its up to you on how you would like to construct it. A timer to keep track for the user to know how many minutes/hours they're answering. Then I want an analytics with graphs after submitting the quizzes (the current quiz), and a overall analytics of the previous quizzes with graphs, that saves in the browser storage. After submitting, it should post the score, percentage, time taken, the users answer, the correct answer and explanation. Its up to you how you would construct it all. I want the questionnaire to have difficulty easy, medium, hard with its type and category(topic). I want a button in the landing page that redirect me to the Overall Performance Analytics.
+
+after answering there should be a Current Performance Analytics is should contain: Total time, The overall score, Time spent per question, Category Mastery graph, Question Type Analysis graph, Difficulty Breakdown graph. (up to you on what graphs you will use)
+
+Overall Performance Analytics should contain: Filter by Category, correct and incorrect answer by category.
+
+Make sure to separate all the files, example:
+Index.html
+quiz.html
+analytics.html
+results.html
+css/ 
+>style.css
+>analytics.css
+>quiz.css
+>print.css
+>results.css
+js/
+>quiz.js
+>app.js
+>analytics.js
+>results.js
+>questions.js
+etc...
+
+Very important: Make the User interface of the website beautiful. Amaze me. I want you to code all the features and functions that i have gave you do not give me comments that i am the one that needs to code it because i want you to code and implement all of it, give me a complete set of codes that i only should copy, And give me a guide on what file should i create, edit and so on. Do not give me a zip file for all of the codes if you can't finish it in one reply. Make sure the questions.js file is the last code that you will be giving me for it is a long code full of questionnaire after coding all of the implementation ask me if you should code the question.js file, i will send a separate instructions to it. Do not use any server, I want it to easily access by browser directly. Verify every reply the progress of our code and the missing till we are done.  I WANT YOU TO IMPLEMENT ALL. DO NOT PUT COMMENTS ON THE CODE THAT I AM THE ONE THAT NEEDS TO CODE.
+
+Important Features:
+Create the chart visualizations, Score calculation and analytics using Chart.js, Performance graphs (pie chart for score distribution, bar chart for time per question, Another chart for how many times the user has taken the quiz, etc..)
+
+When in last question, Next question button should become Submit
+
+LocalStorage integration for saving results
+
+Detailed result breakdown with explanations
+
+Exportable results, Print-friendly results (important PDF, CSV, JSON, ETC..)
+
+Adaptive progress bar
+
+Question flagging system
+
+Accessibility features
+
+Text size adjuster for accessibility
+
+Session resume capability
+
+Confidence meter for each answer
+
+Add form validation
+
+Implement responsive mobile optimizations
+
+Add loading states and error handling
+
+
+So in Json, I want to test it first if the whole website is working so give me 1 case study with 10 questions, the questions should be long and very hard , the explanations should be long and very accurate and efficient

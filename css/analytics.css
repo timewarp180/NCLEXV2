@@ -1,0 +1,55 @@
+.analytics-page {
+    background-color: #f8f9fa;
+}
+
+.metric-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.metric-icon.bg-primary { background-color: var(--primary-color); }
+.metric-icon.bg-success { background-color: #28a745; }
+.metric-icon.bg-info { background-color: #17a2b8; }
+.metric-icon.bg-warning { background-color: #ffc107; }
+
+.metric-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.metric-label {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Analytics Dashboard Styles */
+#categoryChart, #difficultyChart {
+    max-height: 400px;
+}
+
+.question-modal-trigger {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.question-modal-trigger:hover {
+    background-color: #f8f9fa;
+}
+
+.modal-body pre {
+    white-space: pre-wrap;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.badge-difficulty {
+    font-size: 0.8em;
+    padding: 0.3em 0.6em;
+}

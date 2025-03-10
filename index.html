@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCLEX Master Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="images/logo.png" alt="Pebbles Master Pro" height="45"> Pebbles Master Pro
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="analytics.html">Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#testimonials"  data-bs-toggle="modal">Success Stories</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Links
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- <li><a class="dropdown-item" href="https://nurses.archerreview.com/" 
+                                   target="_blank">Archer Review</a></li>
+                            <li><a class="dropdown-item" href="https://www.ncsbn.org/nclex.htm" 
+                                   target="_blank">NCLEX Resources</a></li> -->
+                            <li><a class="dropdown-item" href="https://timewarp180.github.io/NCLEX-Case-Study/" 
+                                   target="_blank">Case Study</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#about-us-modal" 
+                                   data-bs-toggle="modal">About Us</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="btn btn-primary ms-2" href="quiz.html">Start Free Trial</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero bg-light py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold text-primary mb-4">Your Path to NCLEX Success Starts Here</h1>
+                    <p class="lead text-secondary mb-4">Master nursing concepts with AI-powered analytics, detailed explanations, and adaptive practice tests.</p>
+                    <div class="d-flex gap-3">
+                        <a href="quiz.html" class="btn btn-primary btn-lg px-5 py-3">Start Free Trial</a>
+                        <a href="#features" class="btn btn-outline-primary btn-lg px-5 py-3">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center mt-5 mt-lg-0">
+                    <img src="images/Pebbles.gif" alt="Learning Illustration" class="img-fluid" style="max-height: 400px;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wave Divider -->
+    <div class="wave-divider">
+        <svg viewBox="0 0 1440 120" fill="currentColor">
+            <path d="M1440 21.21V120H0V21.21C120 35.07 240 42 360 42s240-6.93 360-20.79c88.328-8.794 154.574-14.333 198.738-16.618A3120.56 3120.56 0 0 1 1440 21.21z"></path>
+        </svg>
+    </div>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3">Why Choose Pebbles Master Pro?</h2>
+                <p class="text-muted">Everything you need to pass with confidence</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-hover">
+                        <div class="card-body p-4">
+                            <div class="icon-wrapper bg-primary mb-3">
+                                <i class="fas fa-brain fa-2x text-white"></i>
+                            </div>
+                            <h5 class="card-title mb-3">Adaptive Learning</h5>
+                            <p class="card-text text-muted">AI-powered recommendations based on your performance to focus on weak areas</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-hover">
+                        <div class="card-body p-4">
+                            <div class="icon-wrapper bg-success mb-3">
+                                <i class="fas fa-chart-line fa-2x text-white"></i>
+                            </div>
+                            <h5 class="card-title mb-3">Detailed Analytics</h5>
+                            <p class="card-text text-muted">Track progress with interactive dashboards and performance metrics</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-hover">
+                        <div class="card-body p-4">
+                            <div class="icon-wrapper bg-info mb-3">
+                                <i class="fas fa-clock fa-2x text-white"></i>
+                            </div>
+                            <h5 class="card-title mb-3">Real Exam Simulation</h5>
+                            <p class="card-text text-muted">Timed practice tests with NCLEX-style questions and interface</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="about-us-modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">About Us</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Add image here -->
+                        <img src="images/about.jpg" 
+                             alt="About Us Image"
+                             class="img-fluid rounded mb-3">
+                        
+                        <p>NCLEX Practice Application</p>
+                        <p>Version: 1.0</p>
+                        <p>Contact: support@Pebbles.com</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+            <!-- Success Stories Modal -->
+        <div class="modal fade" id="testimonials" tabindex="-1">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal-content success-modal">
+                    <div class="modal-header bg-primary text-white">
+                        <h2 class="modal-title">The Mighty Pebbles: Our Inspiration</h2>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-4">
+                            <!-- Origin Story -->
+                            <div class="col-12 story-section">
+                                <div class="card border-0 shadow-sm">
+                                    <img src="images/pebbles-1.jpg" class="card-img-top" alt="Pebbles the Hamster">
+                                    <div class="card-body">
+                                        <h3 class="text-primary">The Origin Story</h3>
+                                        <p class="lead">In a quiet corner of a nursing student's apartment, a tiny Campbell’s Dwarf Hamster named Pebbles began his extraordinary journey...</p>
+                                        <p>What started as routine late-night study sessions became the foundation for NCLEX Master Pro. Pebbles' relentless curiosity about medical textbooks and his uncanny ability to "help" organize flashcards inspired his human companion to create something truly special.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Super Hamster Adventures -->
+                            <div class="col-12 story-section">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-body">
+                                        <h3 class="text-primary">Super Hamster Adventures</h3>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <img src="images/pebbles-2.jpg" class="img-fluid rounded mb-3" alt="Pebbles in Action">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <ul class="super-list">
+                                                    <li>🏆 2023 Nursing Mascot of the Year</li>
+                                                    <li>📚 Certified Flashcard Organizer</li>
+                                                    <li>⏱️ Time Management Guru</li>
+                                                    <li>💡 Stress Relief Specialist</li>
+                                                </ul>
+                                                <blockquote class="blockquote mt-3">
+                                                    <p>"Pebbles taught me that success comes in small packages - both in hamsters and NCLEX prep!"</p>
+                                                    <footer class="blockquote-footer">Diamae O., RN</footer>
+                                                </blockquote>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Features Inspired by Pebbles -->
+                            <div class="col-12 story-section">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-body">
+                                        <h3 class="text-primary">Pebbles-Powered Features</h3>
+                                        <div class="row row-cols-1 row-cols-md-2 g-4">
+                                            <div class="col">
+                                                <div class="feature-card">
+                                                    <img src="images/pebbles-3.jpg" class="img-fluid rounded" alt="Adaptive Learning">
+                                                    <h4 class="mt-3">Adaptive Learning</h4>
+                                                    <p>Just like Pebbles adapts to new environments, our AI tailors questions to your learning needs</p>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="feature-card">
+                                                    <img src="images/pebbles-4.jpg" class="img-fluid rounded" alt="Stress Relief">
+                                                    <h4 class="mt-3">Stress Relief Mode</h4>
+                                                    <p>Take study breaks with Pebbles' favorite relaxation techniques (wheel running not required)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- Add other sections as needed -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

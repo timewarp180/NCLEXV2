@@ -1,0 +1,187 @@
+.question-card {
+    min-height: 60vh;
+    border-radius: 15px;
+}
+
+.progress {
+    height: 10px;
+    border-radius: 5px;
+}
+
+.timer {
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.confidence-meter .btn-group .btn.active {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.flag-btn.flagged {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+/* Add to quiz.css */
+@media (max-width: 768px) {
+    .question-card {
+        margin: 0 -1rem;
+        border-radius: 0;
+        min-height: calc(100vh - 120px);
+    }
+    
+    #quiz-progress {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .progress {
+        width: 100% !important;
+        margin-top: 0.5rem;
+    }
+}
+
+/* Add these styles */
+.priority-list {
+    border: 2px dashed #dee2e6;
+    border-radius: 10px;
+    padding: 15px;
+    min-height: 200px;
+}
+
+.priority-item {
+    cursor: move;
+    user-select: none;
+    padding: 15px;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    margin: 10px 0;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.priority-item:hover {
+    transform: translateX(5px);
+    border-color: #2A5C82;
+}
+
+.handle {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    color: #5BA4E6;
+    margin-right: 1rem;
+}
+
+.sortable-chosen {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.scenario-container {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid #dee2e6;
+}
+
+.scenario-part {
+    margin-bottom: 1.5rem;
+}
+
+.scenario-part p {
+    margin-bottom: 0.5rem;
+    color: #2A5C82;
+    font-size: 1.1rem;
+}
+
+.scenario-select {
+    max-width: 400px;
+    margin-left: 1rem;
+}
+
+/* Add to quiz.css */
+.priority-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.priority-card {
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+    position: relative;
+
+}
+
+.priority-card.selected {
+    border-color: #2A5C82;
+    background: #f8faff;
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(42,92,130,0.1);
+}
+
+.order-badge {
+    width: 30px;
+    height: 30px;
+    background: #2A5C82;
+    color: white;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: -15px;
+    top: -15px;
+}
+
+.scenario-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #2A5C82;
+}
+
+.scenario-select {
+    display: inline-block;
+    width: auto;
+    min-width: 220px;
+    margin: 0 5px;
+    border: 2px solid #5BA4E6;
+    border-radius: 6px;
+    padding: 8px 12px;
+    background: white;
+    color: #2A5C82;
+    font-size: 1rem;
+}
+
+.scenario-select:focus {
+    border-color: #2A5C82;
+    box-shadow: 0 0 8px rgba(42,92,130,0.2);
+}
+
+.priority-item.sortable-chosen .priority-card {
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.pagination-container {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.pagination-btn {
+    min-width: 40px;
+    border-radius: 20px;
+}
+
+.btn-primary {
+    background: #2A5C82;
+    border-color: #2A5C82;
+}
