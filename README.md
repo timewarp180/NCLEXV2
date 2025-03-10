@@ -1,4 +1,4 @@
-# 🩺 NCLEX Master Pro | Nurse Exam Prep Platform
+# 🩺 Pebbles NCLEX Master Pro | Nurse Exam Prep Platform
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Bootstrap 5](https://img.shields.io/badge/Bootstrap-5.3-7952B3.svg)](https://getbootstrap.com)
