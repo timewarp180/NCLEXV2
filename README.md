@@ -7,7 +7,8 @@
 **Your smart companion for nursing licensure success**  
 _A clinically-focused web application for NCLEX-RN® preparation with advanced analytics_
 
-![App Screenshot](https://via.placeholder.com/800x400.png?text=NCLEX+Master+Pro+Screenshot) <!-- Replace with actual screenshot -->
+![Uploading image.png…]()
+<!-- Replace with actual screenshot -->
 
 ## 🌟 Features
 
@@ -35,18 +36,6 @@ _A clinically-focused web application for NCLEX-RN® preparation with advanced a
 | **UI Framework**  | ![Bootstrap](https://img.shields.io/badge/-Bootstrap-7952B3?logo=bootstrap&logoColor=white) |
 | **Visualization** | ![Chart.js](https://img.shields.io/badge/-Chart.js-FF6384?logo=chart.js&logoColor=white) |
 | **Utilities**     | ![Sortable.js](https://img.shields.io/badge/-Sortable.js-00A8E1) ![jsPDF](https://img.shields.io/badge/-jsPDF-000000) |
-
-**Key Architectural Features**  
-```mermaid
-graph LR
-    A[User Interface] --> B(Quiz Engine)
-    A --> C(Analytics Dashboard)
-    B --> D[localStorage]
-    C --> D
-    D --> E[(Question Bank)]
-    style A fill:#2A5C82,color:white
-    style B fill:#28a745,color:white
-    style C fill:#ffc107,color:black
 
 
 📈 Roadmap
