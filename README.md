@@ -7,7 +7,8 @@
 **Your smart companion for nursing licensure success**  
 _A clinically-focused web application for NCLEX-RN® preparation with advanced analytics_
 
-![Uploading image.png…]()
+![image](https://github.com/user-attachments/assets/b6a1e3a9-bd5e-4667-ab3b-f83b3267d6e1)
+
 <!-- Replace with actual screenshot -->
 
 ## 🌟 Features
