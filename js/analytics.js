@@ -188,6 +188,8 @@ function renderAnalytics(results) {
                     <div class="mb-3">${question.text}</div>
                     <div class="alert ${question.correct ? 'alert-success' : 'alert-danger'}">
                         Your Answer: ${formatUserAnswer(question)}<br>
+                    </div>
+                    <div class="alert alert-success">
                         Correct Answer: ${formatCorrectAnswer(question)}
                     </div>
                     <div class="bg-light p-3 rounded">
