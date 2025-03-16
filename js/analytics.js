@@ -160,8 +160,8 @@ function renderAnalytics(results) {
             result.questions.filter(q => q.flagged).forEach(q => {
                 acc += `
                     <div class="list-group-item question-modal-trigger" 
-                        data-question='${JSON.stringify(q)}'
-                        data-date='${result.date}'>
+                         data-question='${escapeHtml(JSON.stringify(q))}'
+                         data-date='${result.date}'>
                         <div class="d-flex justify-content-between">
                             <span>${q.text.substring(0, 70)}...</span>
                             <small class="text-muted">${new Date(result.date).toLocaleDateString()}</small>
@@ -369,4 +369,15 @@ function calculateDifficultyData(results) {
         Math.round((counts.hard.correct / counts.hard.total) * 100) || 0,
         Math.round(((counts.hard.total - counts.hard.correct) / counts.hard.total) * 100) || 0
     ];
+}
+
+// Add this helper function
+function escapeHtml(unsafe) {
+    return unsafe.replace(/[&<>"']/g, (match) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    }[match]));
 }
