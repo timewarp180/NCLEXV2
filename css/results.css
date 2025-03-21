@@ -112,3 +112,18 @@
     top: 0.5rem;
     right: 0.5rem;
 }
+
+@media print {
+    .print-header img {
+        height: 35px !important;
+    }
+    
+    .print-header h2 {
+        font-size: 1.4rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+    
+    .print-meta {
+        font-size: 0.8rem !important;
+    }
+}

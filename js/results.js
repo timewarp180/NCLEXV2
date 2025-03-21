@@ -202,6 +202,7 @@ function formatTime(seconds) {
     return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 }
 
+
 // Add these functions to handle exports
 function exportCSV() {
     const results = JSON.parse(localStorage.getItem('currentResult'));
@@ -263,3 +264,22 @@ function exportJSON() {
     a.download = `nclex-results-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
 }
+
+// Before print handler
+window.addEventListener('beforeprint', () => {
+    const printData = document.querySelector('.print-data');
+    printData.dataset.date = new Date().toLocaleDateString();
+    printData.dataset.duration = document.getElementById('time-taken').textContent;
+    
+    // Force 2 questions per page
+    document.querySelectorAll('.breakdown-card').forEach((card, index) => {
+        if((index + 1) % 2 === 0) {
+            card.style.pageBreakAfter = "always";
+        }
+    });
+    
+    // Scale down elements if needed
+    if(document.querySelectorAll('.breakdown-card').length > 10) {
+        document.documentElement.style.fontSize = '7pt';
+    }
+});

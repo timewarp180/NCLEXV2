@@ -45,12 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
 });
 
-prevBtn.addEventListener('click', () => {
-    if(currentQuestion > 0) {
-        currentQuestion--;
-        loadQuestion(currentQuestion);
-    }
-});
 // Add session saving function (BEFORE helper functions)
 function saveSession() {
     const session = {
@@ -73,6 +67,11 @@ const showError = (message, isWarning = false) => {
 // Question Loader
 // In quiz.js - Update loadQuestion function
 function loadQuestion(index) {
+    try {
+        // Clear previous answer validation
+        questionText.innerHTML = '';
+        questionBody.innerHTML = '';
+        document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
     initPagination();
 
     // Get question FIRST
@@ -125,38 +124,85 @@ function loadQuestion(index) {
     // Update flag button state
     const flagBtn = document.querySelector('.flag-btn');
     flagBtn.classList.toggle('flagged', userAnswers[index]?.flagged || false);
+
+
+
+    if (userAnswers[index]) {
+        restoreAnswer(q.type, userAnswers[index].answer);
+           // Add validation styling
+           if (!userAnswers[index].answer) {
+            document.querySelectorAll('.scenario-select, input[type="text"], select').forEach(el => {
+                el.classList.add('is-invalid');
+            });
+        }
+    }
+
+        // Add null check before restoring answer
+        if (userAnswers[index]?.answer) {
+            restoreAnswer(q.type, userAnswers[index].answer);
+        }
+
+         // Add delay for DOM rendering
+         setTimeout(() => {
+            if(userAnswers[index]) {
+                restoreAnswer(q.type, userAnswers[index].answer);
+            }
+        }, 50);
+    } catch (error) {
+        console.error('Critical load error:', error);
+        // Fallback to previous question
+        currentQuestion = Math.min(currentQuestion + 1, questions.length - 1);
+    }
 }
 
 // Add to loadQuestion function
 // In quiz.js - Update initPagination function
 function initPagination() {
     const container = document.getElementById('question-pagination');
+    // Add null check first
+    if (!container) {
+        console.warn('Pagination container not found');
+        return;
+    }
+
     container.innerHTML = questions.map((_, i) => {
         let btnClass = 'btn-outline-primary';
-        if(i === currentQuestion) {
+        
+        // Priority 1: Flagged questions (yellow)
+        if (userAnswers[i]?.flagged) {
+            btnClass = 'btn-warning';
+        }
+        // Priority 2: Current question (primary)
+        else if (i === currentQuestion) {
             btnClass = 'btn-primary';
-        } else if (userAnswers[i]?.answer !== null) {
+        }
+        // Priority 3: Answered questions (success)
+        else if (userAnswers[i]?.answer !== null) {
             btnClass = 'btn-success';
         }
-        // Add flag indicator
+        // Preserve flag indicator
         const flagIndicator = userAnswers[i]?.flagged 
-            ? '<i class="fas fa-flag ms-2 text-danger"></i>' 
-            : '';
+            ? '<i class="fas fa-flag ms-2 text-warning"></i>' 
+            : '';   
             
         return `
-        <button class="btn btn-sm ${btnClass} pagination-btn"
+        <button class="btn btn-sm ${btnClass} pagination-btn" 
                 data-index="${i}">
-            ${i + 1} ${flagIndicator}
-        </button>
-    `}).join('');
-    
-    document.querySelectorAll('.pagination-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            currentQuestion = parseInt(e.target.dataset.index);
+            ${i + 1}
+        </button>`;
+    }).join('');
+
+    // Preserve click handlers with event delegation
+    container.addEventListener('click', (e) => {
+        const btn = e.target.closest('.pagination-btn');
+        if (btn) {
+            handleAnswer(); // Save current answer
+            currentQuestion = parseInt(btn.dataset.index);
             loadQuestion(currentQuestion);
-        });
+        }
     });
 }
+
 // Add this helper function ABOVE loadQuestion
 function getDifficultyColor(difficulty) {
     return {
@@ -170,9 +216,18 @@ function getDifficultyColor(difficulty) {
 function handleAnswer() {
     const q = questions[currentQuestion];
     const answer = getAnswer(q.type);
-    let isValid = true;
+    
+        // Handle empty scenario dropdowns
+        if (q.type === 'scenario-dropdown') {
+            const isValid = Object.values(answer).every(v => v !== '');
+            if (!isValid) {
+                showError('Please complete all dropdowns!');
+                return false;
+            }
+        }
 
-    // Type-specific validation
+    // Validate required answers
+    let isValid = true;
     switch(q.type) {
         case 'select-all':
             isValid = answer.length > 0;
@@ -180,20 +235,27 @@ function handleAnswer() {
         case 'fill-blank':
             isValid = answer.trim() !== '';
             break;
+        case 'scenario-dropdown':
+            isValid = Object.values(answer).every(v => v !== '');
+            break;
         default:
             isValid = !!answer;
     }
+
+    if (!isValid) {
+        showError('Please provide an answer before proceeding!');
+        return false;
+    }
     
-    // ... rest of handleAnswer logic ...
-  // Always save answer
-    userAnswers[currentQuestion] = {
+      // Save answer
+      userAnswers[currentQuestion] = {
         answer: answer,
-        flagged: document.querySelector('.flag-btn').classList.contains('flagged'),
+        flagged: document.querySelector('.flag-btn')?.classList.contains('flagged') || false,
         confidence: document.querySelector('.confidence-meter .btn.active')?.textContent || 'Not rated',
         timeSpent: timeElapsed - (userAnswers[currentQuestion]?.timeSpent || 0)
     };
-
-    return isValid;
+    
+    return true;
 }
 
 function showValidationError(message) {
@@ -206,8 +268,8 @@ function showValidationError(message) {
 }
 // Navigation Controls
 nextBtn.addEventListener('click', () => {
-    if(handleAnswer()) { // Saves answer automatically
-        if(currentQuestion < questions.length - 1) {
+    if (handleAnswer()) {
+        if (currentQuestion < questions.length - 1) {
             currentQuestion++;
             loadQuestion(currentQuestion);
         } else {
@@ -219,11 +281,17 @@ nextBtn.addEventListener('click', () => {
 });
 
 // Add previous button handler
+// In the existing prevBtn event listener
 prevBtn.addEventListener('click', () => {
-    handleAnswer(); // Save current answer before leaving
+    handleAnswer(); // Save current answer first
     if(currentQuestion > 0) {
         currentQuestion--;
-        loadQuestion(currentQuestion);
+        try {
+            loadQuestion(currentQuestion);
+        } catch (error) {
+            console.error('Failed to load question:', error);
+            currentQuestion++; // Rollback if error occurs
+        }
     }
 });
 
@@ -301,11 +369,15 @@ function generateQuestionHTML(question) {
             </div>`;
             break;
             
-        case 'fill-blank':
-            html = `<div class="input-group">
-                <input aria-labelledby="question-text" type="text" class="form-control" placeholder="Enter your answer">
-            </div>`;
-            break;
+            case 'fill-blank':
+                html = `<div class="input-group">
+                    <input type="text" 
+                           class="form-control persist-answer" 
+                           placeholder="Enter your answer"
+                           autocomplete="off"
+                           value="${userAnswers[currentQuestion]?.answer || ''}">
+                </div>`;
+                break;
             
             case 'priority':
                 html = `<div class="priority-grid">
@@ -318,38 +390,43 @@ function generateQuestionHTML(question) {
                         </div>
                     `).join('')}
                 </div>`;
-            
-                // Add this error-boundary initialization
+    
                 setTimeout(() => {
                     const container = document.querySelector('.priority-grid');
-                    if(container) {
+                    if(!container) {
+                        console.warn('Priority grid not found');
+                        return;
+                    }
+                    
+                    try {
                         new Sortable(container, {
                             animation: 150,
-                            handle: '.priority-card', // Changed from '.handle'
-                            filter: '.ignore-elements', // Add if needed            
+                            handle: '.priority-card',
                             onUpdate: () => handleAnswer()
                         });
-                    } else {
-                        console.error('Priority grid container not found');
-                        showError('Could not initialize prioritization interface', true);
+                    } catch (error) {
+                        console.error('Sortable init failed:', error);
                     }
-                }, 0);
+                }, 50); // Increased delay for DOM stability
                 break;
             
-        case 'medication-matching':
-            html = `<table class="table">
-                ${question.pairs.map(pair => `
-                <tr>
-                    <td>${pair.medication}</td>
-                    <td>
-                        <select  aria-describedby="scenario-text" class="form-select">
-                            ${question.options.map(opt => `
-                            <option value="${opt}">${opt}</option>`).join('')}
-                        </select>
-                    </td>
-                </tr>`).join('')}
-            </table>`;
-            break;
+                case 'medication-matching':
+                    html = `<table class="table">
+                        ${question.pairs.map(pair => `
+                        <tr>
+                            <td>${pair.medication}</td>
+                            <td>
+                                <select class="form-select" style="border-color: var(--primary-color)">
+                                    <option value="" selected disabled>Select option</option>
+                                    ${question.options.map(opt => `
+                                    <option value="${opt}">${opt}</option>
+                                    `).join('')}
+                                </select>
+                            </td>
+                        </tr>
+                        `).join('')}
+                    </table>`;
+                    break;
             
             case 'scenario-dropdown':
                 // Change 'q' to 'question' to match function parameter
@@ -428,29 +505,37 @@ function saveResults(results) {
     localStorage.setItem('quizResults', JSON.stringify(allResults));
 }
 
-// Validation Functions
 function getAnswer(type) {
     switch(type) {
         case 'multiple-choice':
-            return document.querySelector('input[name="answer"]:checked')?.value;
+            return document.querySelector('input[name="answer"]:checked')?.value || null;
+            
         case 'select-all':
             return Array.from(document.querySelectorAll('input[name="answer"]:checked'))
-                .map(checkbox => checkbox.value);
+                   .map(checkbox => checkbox?.value).filter(Boolean);
+            
         case 'fill-blank':
-            return document.querySelector('input[type="text"]').value.trim();
+            const input = document.querySelector('input[type="text"]');
+            return input ? input.value.trim() : '';
+            
         case 'priority':
-            return Array.from(document.querySelectorAll('.priority-item'))
-                .map(item => item.dataset.value);
+            const items = document.querySelectorAll('.priority-item');
+            return Array.from(items).map(item => item?.dataset.value).filter(Boolean);
+            
         case 'medication-matching':
-            return Array.from(document.querySelectorAll('select'))
-                .map(select => select.value);
+            const selects = document.querySelectorAll('select');
+            return Array.from(selects).map(select => select?.value).filter(Boolean);
+            
         case 'scenario-dropdown':
-        const selections = {};
-        document.querySelectorAll('.scenario-select').forEach(select => {
-            selections[select.dataset.part] = select.value;
-        });
-        return selections;
-        }
+            const selections = {};
+            document.querySelectorAll('.scenario-select').forEach(select => {
+                if (select) selections[select.dataset.part] = select.value;
+            });
+            return selections;
+            
+        default:
+            return null;
+    }
 }
 
 // Complete checkAnswer function
@@ -468,27 +553,46 @@ function checkAnswer(question, userAnswer) {
     
     switch(question.type) {
         case 'multiple-choice':
+            return userAnswer === correct;
 
-            case 'scenario-dropdown':
-                // Add robust null checking
-                if (!question.parts || typeof question.parts !== 'object') return false;
-                if (!userAnswer || typeof userAnswer !== 'object') return false;
+        // case 'scenario-dropdown':
+        //         // Add robust null checking
+        //     if (!question.parts || typeof question.parts !== 'object') return false;
+        //     if (!userAnswer || typeof userAnswer !== 'object') return false;
                 
-                return Object.keys(question.parts).every(key => {
-                    const correctValue = question.parts[key]?.correct;
-                    return userAnswer[key] === correctValue;
-                });
+        //     return Object.keys(question.parts).every(key => {
+        //         const correctValue = question.parts[key]?.correct;
+        //         return userAnswer[key] === correctValue;
+        //     });
     
         case 'select-all':
-            return arraysEqual([...userAnswer].sort(), [...correct].sort());
+            return userAnswer.length === correct.length && 
+            correct.every(c => userAnswer.includes(c));
+
         case 'fill-blank':
-            return correct.some(c => c.toLowerCase() === userAnswer.toLowerCase().trim());
+                    const correctAnswers = question.correctAnswer.map(c => c.toLowerCase().trim());
+                
+                // Extract all numbers from user's answer
+                const userNumbers = (userAnswer.match(/\d+(\.\d+)?/g) || [])
+                    .map(num => parseFloat(num).toFixed(2).replace(/\.00$/, ''));
+                
+                // Convert correct answers to numbers
+                const correctNumbers = correctAnswers.map(c => 
+                    parseFloat(c).toFixed(2).replace(/\.00$/, '')
+                );
+
+                // Check for exact matches regardless of order
+                const matches = correctNumbers.every(c => 
+                    userNumbers.includes(c)
+                ) && userNumbers.every(u => 
+                    correctNumbers.includes(u)
+                );
+
+                return matches && userNumbers.length === correctNumbers.length;
         case 'priority':
             return arraysEqual(userAnswer, correct);
-            case 'medication-matching':
-                const expected = question.pairs.map(p => p.correctMatch);
-                return arraysEqual(userAnswer, expected);
-                
+        case 'medication-matching':
+            return arraysEqual(userAnswer, question.pairs.map(p => p.correctMatch));
     }
 }
 
@@ -500,40 +604,49 @@ function arraysEqual(a, b) {
 }
 
 function restoreAnswer(type, answer) {
-    if (!answer) return; // Add null check
+    if (!answer) return;
 
     switch(type) {
         case 'multiple-choice':
-            document.querySelector(`input[value="${answer}"]`).checked = true;
+            const radio = document.querySelector(`input[value="${CSS.escape(answer)}"]`);
+            if (radio) radio.checked = true;
             break;
+            
         case 'select-all':
-            answer.forEach(val => {
-                document.querySelector(`input[value="${val}"]`).checked = true;
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                if (checkbox) checkbox.checked = answer.includes(checkbox.value);
             });
             break;
+            
         case 'fill-blank':
-            document.querySelector('input[type="text"]').value = answer;
-            break;
-        case 'priority':
-            const container = document.querySelector('.priority-grid');
-            answer.forEach(val => {
-                const card = document.querySelector(`[data-value="${val}"]`);
-                if(card) container.appendChild(card);
-            });
-            break;
-            case 'medication-matching':
-                // Add array check and bounds checking
-                if (Array.isArray(answer)) {
-                    document.querySelectorAll('select').forEach((select, i) => {
-                        if (answer[i]) select.value = answer[i];
-                    });
+                const input = document.querySelector('input[type="text"]');
+                if(input) {
+                    // Convert array answers to comma-separated string
+                    input.value = Array.isArray(answer) ? answer.join(', ') : answer;
                 }
                 break;
-                case 'scenario-dropdown':
-                    Object.entries(answer).forEach(([part, value]) => {
-                        const select = document.querySelector(`[data-part="${part}"]`);
-                        if(select) select.value = value;
-                    });
-                    break;
+            
+        case 'priority':
+            const container = document.querySelector('.priority-grid');
+            if (container) {
+                answer.forEach(val => {
+                    const card = document.querySelector(`[data-value="${CSS.escape(val)}"]`);
+                    if (card) container.appendChild(card);
+                });
+            }
+            break;
+            
+        case 'medication-matching':
+                document.querySelectorAll('select').forEach((select, index) => {
+                    if (select && answer[index]) select.value = answer[index];
+                });
+                break;
+            
+        case 'scenario-dropdown':
+            Object.entries(answer).forEach(([part, value]) => {
+                const select = document.querySelector(`select[data-part="${part}"]`);
+                if (select) select.value = value;
+            });
+            break;
     }
 }

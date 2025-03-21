@@ -185,3 +185,45 @@
     background: #2A5C82;
     border-color: #2A5C82;
 }
+/* Change flag color to yellow */
+.fa-flag {
+    color: #ffc107 !important; /* Bootstrap warning color */
+}
+
+/* Change flag color to yellow */
+.fa-flag {
+    color: #ffc107 !important; /* Bootstrap warning color */
+}
+
+/* Remove all validation styling for all question types */
+.medication-matching select,
+.fill-blank-input,
+.scenario-dropdown select,
+.priority-grid {
+    border-color: var(--primary-color) !important;
+    box-shadow: none !important;
+    background-image: none !important;
+}
+
+/* Remove browser validation indicators */
+select:invalid,
+input:invalid {
+    background-image: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+/* Remove focus ring color */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.25rem rgba(42, 92, 130, 0.25) !important;
+}
+
+/* Remove any existing invalid styling */
+.is-invalid,
+.was-validated :invalid {
+    border-color: var(--primary-color) !important;
+    background-image: none !important;
+    box-shadow: none !important;
+}
